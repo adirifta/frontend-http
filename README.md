@@ -23,8 +23,9 @@ npm run lint
 ```
 
 ### Install dependencies
-npm install pinia
 ```bash
+npm install pinia
+npm i vue-router
 npm install axios
 npm install vue-axios
 ```

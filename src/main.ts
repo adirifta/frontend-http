@@ -1,6 +1,17 @@
-import './assets/main.css'
-
+// main.ts
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
+import router from './router'
+import { initializeAuth } from './services/auth-init'
 
-createApp(App).mount('#app')
+const app = createApp(App)
+const pinia = createPinia()
+
+app.use(pinia)
+app.use(router)
+
+// Initialize auth sebelum mount
+initializeAuth().then(() => {
+  app.mount('#app')
+})
