@@ -34,7 +34,7 @@ const routes = [
     meta: { requiresAuth: false, guestOnly: true }
   },
   {
-    path: '/reset-password/:token',
+    path: '/reset-password',
     name: 'reset-password',
     component: () => import('@/views/ResetPassword.vue'),
     meta: { requiresAuth: false }

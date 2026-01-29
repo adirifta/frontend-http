@@ -155,8 +155,7 @@ const errors = reactive({
 })
 
 onMounted(() => {
-  // Get token from URL params and email from query
-  form.token = route.params.token as string || ''
+  form.token = route.query.token as string || ''
   form.email = route.query.email as string || ''
 
   if (!form.token || !form.email) {
