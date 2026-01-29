@@ -17,35 +17,24 @@
   </div>
 </template>
 
-<!-- App.vue - Tambahkan mounted hook -->
 <script setup lang="ts">
-import { onMounted, computed } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
 const authStore = useAuthStore()
 
-// Cek auth status saat app mount
-onMounted(async () => {
-  try {
-    // Coba auto-login jika ada cookie
-    await authStore.fetchUser();
-  } catch (error) {
-    console.log('Auto-login on mount failed:', error);
-  }
-});
-
-const isAuthenticated = computed(() => authStore.isAuthenticated);
+const isAuthenticated = computed(() => authStore.isAuthenticated)
 const showNavbar = computed(() => {
-  const route = router.currentRoute.value;
-  return !['login', 'register', 'verify-email', 'reset-password', 'forgot-password'].includes(route.name as string);
-});
+  const route = router.currentRoute.value
+  return !['login', 'register', 'verify-email', 'reset-password', 'forgot-password'].includes(route.name as string)
+})
 
 const logout = async () => {
-  await authStore.logout();
-  router.push('/login');
-};
+  await authStore.logout()
+  router.push('/login')
+}
 </script>
 
 <style>
