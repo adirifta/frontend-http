@@ -34,7 +34,7 @@ export interface User {
 
 class AuthService {
     async login(credentials: LoginCredentials): Promise<{ user: User; message: string }> {
-        const response = await apiClient.post('/auth/login', credentials);
+        const response = await apiClient.post('/auth/login', credentials, { withCredentials: true });
         return response.data;
     }
 
@@ -45,7 +45,7 @@ class AuthService {
 
     async logout(): Promise<{ message: string }> {
         const response = await apiClient.post('/auth/logout');
-        localStorage.removeItem('access_token');
+        // localStorage.removeItem('access_token');
         return response.data;
     }
 

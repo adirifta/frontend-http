@@ -58,33 +58,24 @@ const router = createRouter({
   routes
 })
 
-// Navigation Guard
 router.beforeEach(async (to, from, next) => {
-  const authStore = useAuthStore()
+  const authStore = useAuthStore();
 
-  // Coba fetch user jika belum ada
-  if (!authStore.user && localStorage.getItem('access_token')) {
-    try {
-      await authStore.fetchUser()
-    } catch (error) {
-      console.error('Auto-login failed:', error)
-      localStorage.removeItem('access_token')
-    }
+  if (!authStore.authChecked) {
+    await authStore.fetchUser();
   }
 
-  // Cek jika route memerlukan autentikasi
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next('/login')
-    return
+    next('/login');
+    return;
   }
 
-  // Cek jika route hanya untuk guest
   if (to.meta.guestOnly && authStore.isAuthenticated) {
-    next('/dashboard')
-    return
+    next('/dashboard');
+    return;
   }
 
-  next()
-})
+  next();
+});
 
 export default router

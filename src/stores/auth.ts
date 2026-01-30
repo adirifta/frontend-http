@@ -2,18 +2,20 @@ import { defineStore } from 'pinia';
 import AuthService, { type User, type LoginCredentials, type RegisterData } from '@/api/auth';
 
 interface AuthState {
-    user: User | null;
-    isAuthenticated: boolean;
-    loading: boolean;
-    error: string | null;
+  user: User | null;
+  isAuthenticated: boolean;
+  authChecked: boolean;
+  loading: boolean;
+  error: string | null;
 }
 
 export const useAuthStore = defineStore('auth', {
     state: (): AuthState => ({
-        user: null,
-        isAuthenticated: false,
-        loading: false,
-        error: null
+      user: null,
+      isAuthenticated: false,
+      authChecked: false,
+      loading: false,
+      error: null
     }),
 
     actions: {
@@ -50,25 +52,22 @@ export const useAuthStore = defineStore('auth', {
         },
 
         async logout() {
-            try {
-                await AuthService.logout();
-                this.$reset();
-            } catch (error) {
-                console.error('Logout error:', error);
-            }
+          await AuthService.logout();
+          this.$reset();
         },
 
         async fetchUser() {
-            try {
-                const user = await AuthService.getCurrentUser();
-                this.user = user;
-                this.isAuthenticated = true;
-                return user;
-            } catch (error) {
-                this.isAuthenticated = false;
-                this.user = null;
-                throw error;
-            }
+          try {
+            const user = await AuthService.getCurrentUser();
+            console.log(user)
+            this.user = user;
+            this.isAuthenticated = true;
+          } catch (e) {
+            this.user = null;
+            this.isAuthenticated = false;
+          } finally {
+            this.authChecked = true;
+          }
         },
 
         setError(error: string | null) {

@@ -23,23 +23,19 @@
             {{ user?.email_verified_at ? '✅ Verified' : '❌ Not Verified' }}
           </span>
         </div>
-        <div class="info-item">
-          <span class="label">Member Since:</span>
-          <span class="value">{{ formatDate(user?.created_at) }}</span>
-        </div>
       </div>
     </div>
 
     <div class="actions">
       <div class="action-grid">
         <div class="action-card">
-          <h3>🛡️ Protected Route</h3>
+          <h3>Protected Route</h3>
           <p>Test accessing a protected API route</p>
           <router-link to="/protected" class="btn">Test Protected Route</router-link>
         </div>
 
         <div class="action-card">
-          <h3>🔐 Session</h3>
+          <h3>Session</h3>
           <p>Manage your current session</p>
           <button @click="refreshToken" :disabled="refreshing" class="btn">
             {{ refreshing ? 'Refreshing...' : 'Refresh Token' }}
@@ -47,7 +43,7 @@
         </div>
 
         <div class="action-card">
-          <h3>📧 Email</h3>
+          <h3>Email</h3>
           <p>Resend verification email</p>
           <button @click="resendVerification" :disabled="resending" class="btn">
             {{ resending ? 'Sending...' : 'Resend Verification' }}
