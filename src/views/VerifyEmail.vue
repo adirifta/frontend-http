@@ -38,9 +38,9 @@
             </ul>
           </div>
           <div class="actions">
-            <button @click="resendVerification" class="btn btn-primary" :disabled="resending">
+            <!-- <button @click="resendVerification" class="btn btn-primary" :disabled="resending">
               {{ resending ? 'Sending...' : 'Resend Verification Email' }}
-            </button>
+            </button> -->
             <router-link to="/login" class="btn btn-secondary">
               Back to Login
             </router-link>

@@ -59,16 +59,6 @@
             </router-link>
           </div>
         </form>
-
-        <div class="instructions">
-          <h4>How it works:</h4>
-          <ol>
-            <li>Enter your email address above</li>
-            <li>Check your email for reset instructions</li>
-            <li>Click the link in the email</li>
-            <li>Create a new password</li>
-          </ol>
-        </div>
       </div>
     </div>
   </div>

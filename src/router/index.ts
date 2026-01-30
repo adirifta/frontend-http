@@ -1,4 +1,3 @@
-// src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
@@ -58,24 +57,36 @@ const router = createRouter({
   routes
 })
 
+const publicRoutes = ['login', 'register', 'forgot-password']
+
 router.beforeEach(async (to, from, next) => {
-  const authStore = useAuthStore();
+  const authStore = useAuthStore()
+  const isPublicRoute = publicRoutes.includes(to.name as string)
+
+  if (isPublicRoute) {
+    next()
+    return
+  }
 
   if (!authStore.authChecked) {
-    await authStore.fetchUser();
+    try {
+      await authStore.fetchUser()
+    } catch (error) {
+      console.error('Failed to fetch user:', error)
+    }
   }
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next('/login');
-    return;
+    next('/login')
+    return
   }
 
   if (to.meta.guestOnly && authStore.isAuthenticated) {
-    next('/dashboard');
-    return;
+    next('/dashboard')
+    return
   }
 
-  next();
-});
+  next()
+})
 
 export default router

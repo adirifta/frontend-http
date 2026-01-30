@@ -27,6 +27,7 @@ export const useAuthStore = defineStore('auth', {
                 const response = await AuthService.login(credentials);
                 this.user = response.user;
                 this.isAuthenticated = true;
+                this.authChecked = true;
                 return { success: true, data: response };
             } catch (error: any) {
                 this.error = error.response?.data?.error || 'Login failed';
@@ -52,21 +53,33 @@ export const useAuthStore = defineStore('auth', {
         },
 
         async logout() {
-          await AuthService.logout();
-          this.$reset();
+          try {
+            await AuthService.logout();
+          } finally {
+            this.$reset();
+          }
         },
 
         async fetchUser() {
+          if (this.loading) return;
+
+          this.loading = true;
+
           try {
             const user = await AuthService.getCurrentUser();
-            console.log(user)
             this.user = user;
             this.isAuthenticated = true;
-          } catch (e) {
+          } catch (error: any) {
+            console.log('Failed to fetch user:', error);
             this.user = null;
             this.isAuthenticated = false;
+
+            if (error.response?.status !== 401) {
+              this.error = error.response?.data?.message || 'Failed to fetch user';
+            }
           } finally {
             this.authChecked = true;
+            this.loading = false;
           }
         },
 
@@ -84,5 +97,16 @@ export const useAuthStore = defineStore('auth', {
         getIsAuthenticated: (state) => state.isAuthenticated,
         getLoading: (state) => state.loading,
         getError: (state) => state.error
+    },
+
+    persist: {
+      enabled: true,
+      strategies: [
+        {
+          key: 'auth-storage',
+          storage: localStorage,
+          paths: ['user', 'isAuthenticated', 'authChecked']
+        }
+      ]
     }
 });

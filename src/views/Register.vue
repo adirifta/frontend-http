@@ -53,8 +53,8 @@
       </div>
 
       <button type="submit" :disabled="loading">
-        <span v-if="loading">⏳ Creating account...</span>
-        <span v-else>📝 Register</span>
+        <span v-if="loading">Creating account...</span>
+        <span v-else>Register</span>
       </button>
 
       <div v-if="authStore.error" class="error">
